@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ls.blog.dao.MenuDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ls.blog.entity.MenuEntity" id="menuMap">
+        <result property="menuId" column="menu_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="menuUrl" column="menu_url"/>
+        <result property="menuPerms" column="menu_perms"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="menuIcon" column="menu_icon"/>
+        <result property="orderNum" column="order_num"/>
+    </resultMap>
+
+    <sql id="baseSql">
+        menu_id,parent_id,menu_name,menu_url,menu_perms,menu_type,menu_icon,order_num
+    </sql>
+
+    <select id="selectSecondMenu" resultType="com.ls.blog.entity.MenuEntity">
+        select <include refid="baseSql"/>
+        from menu
+        where parent_id = #{parentId}
+    </select>
+
+    <select id="selectFirstMenu" resultType="com.ls.blog.entity.MenuEntity">
+        select <include refid="baseSql"/>
+        from menu
+        where parent_id = #{firstMenu}
+    </select>
+
+
+</mapper>
